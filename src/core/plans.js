@@ -1,9 +1,9 @@
-import {TASKS,PRACTICE} from '../content/tasks.js';
-import {LOCATIONS,ROUTES,proficiency} from '../content/base.js';
-import {grow,attributeFor} from './growth.js';
-import {log,meetNearby} from './state.js';
-import {evidence,complete,practice,enlisted} from './tasks.js';
-import {clamp} from './rng.js';
+import {TASKS,PRACTICE} from '../content/tasks.js?v=20261018';
+import {LOCATIONS,ROUTES,proficiency} from '../content/base.js?v=20261018';
+import {grow,attributeFor} from './growth.js?v=20261018';
+import {log,meetNearby} from './state.js?v=20261018';
+import {evidence,complete,practice,enlisted} from './tasks.js?v=20261018';
+import {clamp} from './rng.js?v=20261018';
 export function busy(s,id){return s.plans.some(p=>p.participants.includes(id)&&['active','returning','paused'].includes(p.status));}
 export function routeTicks(from,to){const a=LOCATIONS[from]?.city,b=LOCATIONS[to]?.city;if(!a||!b)throw Error('地點未開放');if(a===b)return 0;const r=ROUTES.find(([x,y])=>x===a&&y===b||x===b&&y===a);if(!r)throw Error('本版未開放此旅行路線');return r[2];}
 export function start(s,args){const {kind,mode='self',ticks,location=s.people.player.location,taskId=null,skill=null,destination=null,extra=false}=args;const participants=mode==='self'?['player']:mode==='delegate'?['shen']:['player','shen'];if(!Number.isInteger(ticks)||ticks<1||ticks>50000)throw Error('執行時間無效');

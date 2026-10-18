@@ -1,9 +1,9 @@
-import {ITEMS} from '../content/base.js';
-import {TASKS,WORK_CHOICES} from '../content/tasks.js';
-import {random,clamp} from './rng.js';
-import {log,meet} from './state.js';
-import {advance} from './clock.js';
-import {cancelDelivered,busy} from './plans.js';
+import {ITEMS} from '../content/base.js?v=20261018';
+import {TASKS,WORK_CHOICES} from '../content/tasks.js?v=20261018';
+import {random,clamp} from './rng.js?v=20261018';
+import {log,meet} from './state.js?v=20261018';
+import {advance} from './clock.js?v=20261018';
+import {cancelDelivered,busy} from './plans.js?v=20261018';
 export function workChoice(s,id){const pending=s.pending,p=s.plans.find(p=>p.id===pending?.planId),t=s.tasks.find(t=>t.id===pending?.taskId),choice=WORK_CHOICES.find(c=>c.id===id);if(pending?.type!=='commissionChoice'||!p||!t||!choice||!p.encounterPending)throw Error('眼前沒有待決的工作插曲');if(t.frozen){s.pending=null;p.encounterPending=false;cancelDelivered(s,p,'委託期限已到');return;}if(s.people.player.stamina<(p.remainingWork+choice.extra)*4)throw Error('體力不足以做完這項安排，請選不加時間的做法');let bonus=choice.bonus,text='你耐心整理，把事情處理妥當。';if(id==='clever'){const xp=s.people.player.proficiencyXP[TASKS[t.defId].skill]||0;bonus=xp>=100?6:0;text=xp>=100?'你的經驗派上用場，委託人願多付些報酬。':'你試著運用所知，總算完成眼前難處。';}if(id==='rush'){const success=random(s)<.6;bonus=success?2:-3;text=success?'你趕上進度，委託人很滿意。':'忙中出了小差錯，委託人要少付三錢。';}p.encounterPending=false;p.encounterResolved=true;p.remainingWork+=choice.extra;p.totalTicks+=choice.extra;t.bonusMoney=(t.bonusMoney||0)+bonus;t.encounterResult={choice:id,tick:s.tick,bonusMoney:bonus,text};log(s,`${text}「${t.name}」完成交付後，報酬${bonus>=0?'多':'少'}${Math.abs(bonus)}錢。`,'result');p.status='active';s.pending=null;advance(s,p.remainingWork);}
 export function equip(s,itemId){const p=s.people.player,item=s.resources.items[itemId],d=ITEMS[item?.defId];if(!item||item.holder!=='player'||item.reservedBy||!d||!['weapon','armor'].includes(d.type)||busy(s,'player'))throw Error('這件裝備目前無法換上');if(!['player','army'].includes(item.owner))throw Error('這不是你可使用的裝備');p.equipment[d.type==='weapon'?'weapon':'armor']=itemId;log(s,`你換上${d.name}。`);}
 export function meetPerson(s,id){const p=s.people[id];if(!p||p.location!==s.people.player.location||p.lifeStatus!=='alive'||p.captivity)throw Error('此人現在不在眼前');meet(s,id);}

@@ -1,9 +1,9 @@
-import {date,age,councilAfter} from './calendar.js';
-import {NPCS} from '../content/base.js';
-import {random,clamp} from './rng.js';
-import {log,milestone} from './state.js';
-import {stepPlans} from './plans.js';
-import {freezeDue,enlisted,leader,endingCheck,loseAuthority} from './tasks.js';
+import {date,age,councilAfter} from './calendar.js?v=20261018';
+import {NPCS} from '../content/base.js?v=20261018';
+import {random,clamp} from './rng.js?v=20261018';
+import {log,milestone} from './state.js?v=20261018';
+import {stepPlans} from './plans.js?v=20261018';
+import {freezeDue,enlisted,leader,endingCheck,loseAuthority} from './tasks.js?v=20261018';
 export function knowledge(s,id,entry){if(!entry.confirmed){log(s,'傳聞尚待查證，未改寫已確認現況。','notice');return;}const prev=s.known.map[id];if(prev?.factTick!=null&&(entry.factTick==null||entry.factTick<prev.factTick))return;s.known.map[id]={...entry,receivedTick:s.tick};}
 export function die(s,id,reason){const p=s.people[id];if(p.lifeStatus==='dead')return;p.lifeStatus='dead';p.vitality=0;milestone(s,`dead_${id}`,`${p.name}：${reason}`);for(const plan of s.plans.filter(x=>x.participants.includes(id)&&['active','paused','returning'].includes(x.status))){plan.status='terminated';plan.result={kind:'death',tick:s.tick};for(const personId of plan.participants)if(s.people[personId].activity===plan.id)s.people[personId].activity=null;for(const itemId of plan.resourceReservations)if(s.resources.items[itemId]?.reservedBy===plan.id)s.resources.items[itemId].reservedBy=null;}for(const l of s.commandLinks)if(l.subjectId===id||l.superiorId===id)l.validUntil=s.tick;
 if(id==='player'){s.story.chapterStatus='dead';s.phase='ending';s.pending=null;s.battle=null;log(s,`${reason}。你的人生已寫入《你的三國志》。`,'ending');}}

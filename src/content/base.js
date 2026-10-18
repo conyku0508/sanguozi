@@ -30,3 +30,22 @@ Object.assign(ITEMS,{spear:{name:'普通長槍',price:22,type:'weapon',quality:'
 for(const [id,item] of Object.entries(ITEMS)){item.shops??=(['knife','bow','armor','spear'].includes(id)?['market','smith']:id==='wine'?['market','tavern']:id==='book'?['market','inn']:['market']);}
 
 NPCS.host={name:'江酒家',attrs:[32,43,27,35,53],skill:'口才',xp:300,trait:'熱絡・識人',pref:'酒',roles:'酒肆主人',schedule:['tavern','tavern','tavern','tavern'],civil:true};
+
+// Han-inspired ordinary wares; prices and named workshop grades are game balance, not excavated price claims.
+Object.assign(ITEMS,{
+ clearWine:{name:'清酒',price:14,type:'gift',quality:'上品',giftCategory:'酒',giftBase:3,shops:['tavern','manor']},
+ agedWine:{name:'陳釀清酒',price:35,type:'gift',quality:'珍品',giftCategory:'酒',giftBase:5,shops:['tavern']},
+ analects:{name:'《論語》簡冊',price:28,type:'gift',quality:'上品',giftCategory:'書',giftBase:4,shops:['inn','manor']},
+ artOfWar:{name:'《孫子》兵書簡冊',price:52,type:'gift',quality:'珍品',giftCategory:'書',giftBase:5,shops:['inn']},
+ mirror:{name:'紋飾銅鏡',price:48,type:'gift',quality:'上品',giftCategory:'雅物',giftBase:4,shops:['market','manor']},
+ ringDao:{name:'環首鐵刀',price:48,type:'weapon',quality:'精良',skill:'刀',weaponFactor:1.08,shops:['smith']},
+ forgedSpear:{name:'鍛鐵長矛',price:58,type:'weapon',quality:'精良',skill:'槍',weaponFactor:1.1,shops:['smith']},
+ strongBow:{name:'良工角弓',price:65,type:'weapon',quality:'精良',skill:'弓',weaponFactor:1.1,shops:['smith']},
+ ironArmor:{name:'精製札甲',price:90,type:'armor',quality:'精良',armorFactor:.82,shops:['smith']},
+ fineDao:{name:'名工環首刀',price:145,type:'weapon',quality:'精良',skill:'刀',weaponFactor:1.14,shops:['manor']}
+});
+ITEMS.wine.name='濁酒';ITEMS.wine.giftCategory='酒';ITEMS.wine.giftBase=1;
+ITEMS.book.name='識字簡冊';ITEMS.book.giftCategory='書';ITEMS.book.giftBase=2;
+ITEMS.knife.skill='刀';ITEMS.bow.skill='弓';ITEMS.spear.skill='槍';
+ITEMS.knife.shops=['market'];ITEMS.bow.shops=['market'];ITEMS.armor.shops=['market'];
+ITEMS.spear.shops=['market','smith'];

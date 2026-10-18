@@ -1,6 +1,6 @@
-import {validate,clone} from './state.js';
-import {digest} from './rng.js';
-import {stamp} from './calendar.js';
+import {validate,clone} from './state.js?v=20261018';
+import {digest} from './rng.js?v=20261018';
+import {stamp} from './calendar.js?v=20261018';
 export const SLOT_IDS=['manual1','manual2','manual3','manual4','manual5','auto'];
 const prefix='sanguozi:v1:';
 export class SaveStore{
